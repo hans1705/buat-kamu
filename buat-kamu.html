@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>❤️ Buat Kamu ❤️</title>
+  <style>
+    body {
+      background-color: #ffeef2;
+      color: #333;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+    h1 {
+      color: #e91e63;
+    }
+    #text {
+      font-size: 1.5em;
+      margin-top: 50px;
+    }
+    #celebrate, #thankyou {
+      font-size: 2em;
+      color: #e91e63;
+      margin-top: 30px;
+      animation: blink 1s infinite;
+      display: none;
+    }
+    .gombal {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #ff4081;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+    }
+    .button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .yes {
+      background-color: #4caf50;
+      color: white;
+    }
+    .no {
+      background-color: #f44336;
+      color: white;
+    }
+    .petal {
+      position: fixed;
+      top: -50px;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      border-radius: 50%;
+      animation: fall linear forwards;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>❤️ Hai <span id="nama"></span> ❤️</h1>
+  <div id="text"></div>
+  <div id="actions" style="display: none;">
+    <button class="button yes" onclick="jawaban('YES ❤️')">YA ❤️</button>
+    <button class="button no" onclick="jawaban('NO 😢')">TIDAK 😢</button>
+  </div>
+  <div id="celebrate">🎉 Selamat! Kamu jadi pacar aku ❤️🎉</div>
+  <div id="thankyou">💔 Gapapa kok, makasih ya udah jawab ❤️</div>
+  <div id="gombalan"></div>
+
+  <script>
+    const namaCewek = prompt("Masukin nama kamu dong 🥺👉👈");
+    document.getElementById("nama").innerText = namaCewek;
+
+    const teks = `Hai ${namaCewek}, aku suka sama kamu 🥺👉👈 Mau nggak jadi pacarku? ❤️`;
+    let i = 0;
+    const textEl = document.getElementById("text");
+    let sudahJawab = false;
+    let bungaInterval;
+
+    function ketik() {
+      if (i < teks.length) {
+        textEl.innerHTML += teks.charAt(i);
+        i++;
+        setTimeout(ketik, 50);
+      } else {
+        document.getElementById("actions").style.display = "block";
+      }
+    }
+    ketik();
+
+    function jawaban(res) {
+      if (sudahJawab) return; // ❌ Stop kalau sudah jawab
+      sudahJawab = true;
+
+      document.getElementById("actions").style.display = "none";
+
+      if (res === 'YES ❤️') {
+        document.getElementById("celebrate").style.display = "block";
+        showGombalan();
+        bungaInterval = setInterval(bungaJatuh, 200);
+      } else {
+        document.getElementById("thankyou").style.display = "block";
+        clearInterval(bungaInterval);
+      }
+    }
+
+    function showGombalan() {
+      const gombalList = [
+        "💌 Kamu tau nggak kenapa aku nggak pernah ngeluh? Karena Tuhan udah kirim kamu jadi jawabannya.",
+        "💌 Kalau kamu bintang, aku mau jadi langitnya biar bisa jagain kamu setiap malam.",
+        "💌 Senyum kamu lebih manis dari es teh di siang bolong.",
+        "💌 Aku nggak butuh kunci surga, cukup kamu yang jadi alasan aku bahagia. ❤️"
+      ];
+      const gombalDiv = document.getElementById("gombalan");
+      let idx = 0;
+
+      function nextGombal() {
+        if (idx < gombalList.length) {
+          const p = document.createElement("p");
+          p.className = "gombal";
+          p.textContent = gombalList[idx];
+          gombalDiv.appendChild(p);
+          idx++;
+          setTimeout(nextGombal, 3000); // Gombal baru tiap 3 detik
+        }
+      }
+      nextGombal();
+    }
+
+    function bungaJatuh() {
+      const petal = document.createElement("div");
+      petal.classList.add("petal");
+      petal.style.left = Math.random() * 100 + "vw";
+      petal.style.backgroundColor = ["#ff69b4", "#ff1493", "#ffb6c1"][Math.floor(Math.random() * 3)];
+      petal.style.animationDuration = Math.random() * 3 + 2 + "s";
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 5000);
+    }
+  </script>
+</body>
+</html>
